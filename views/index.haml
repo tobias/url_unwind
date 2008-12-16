@@ -1,0 +1,14 @@
+%html
+  %head
+    %title URL Unwind - see where you are going before you get there
+  %body
+    #content
+      #header
+
+      - unless @unwind_error.nil?
+        #error= @unwind_error
+      %form{:method => 'POST', :action => '/unwind'}
+        %input{:name => 'url', :value => params[:url]}
+        %input{:type => 'submit', :value => 'Unwind It'}
+      - unless @unwound_url.nil?
+        #url= @unwound_url
