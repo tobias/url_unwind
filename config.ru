@@ -1,6 +1,7 @@
 #-*-ruby-*-
-
+ENV['GEM_PATH'] = '/home/urlunwind/rubygems'
 require 'rubygems'
+require 'json'
 require 'vendor/sinatra/lib/sinatra.rb'
 
 
