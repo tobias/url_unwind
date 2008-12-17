@@ -1,11 +1,13 @@
 #-*-ruby-*-
-require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
+require 'rubygems'
 
-Sinatra::Application.default_options.merge!(
-  :run => false,
-  :env => :production
-)
+disable :run
+set :env, :production
+set :raise_errors, true
+set :views, File.dirname(__FILE__) + '/views'
+set :public, File.dirname(__FILE__) + '/public'
+set :app_file, __FILE__
 
 log = File.new("log/sinatra.log", "a")
 STDOUT.reopen(log)
