@@ -1,6 +1,8 @@
 #-*-ruby-*-
-require 'vendor/sinatra/lib/sinatra.rb'
+ENV['GEM_PATH'] = '~/rubygems'
 require 'rubygems'
+require 'vendor/sinatra/lib/sinatra.rb'
+
 
 disable :run
 set :env, :production
@@ -12,6 +14,7 @@ set :app_file, __FILE__
 log = File.new("log/sinatra.log", "a")
 STDOUT.reopen(log)
 STDERR.reopen(log)
+
 
 require 'urlunwind.rb'
 run Sinatra.application
