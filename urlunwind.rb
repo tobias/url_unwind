@@ -8,32 +8,35 @@ get '/' do
 end
 
 post '/unwind' do
-  unwind(params[:url])
+  @unwound_url, @unwind_error = unwind(params[:url])
   haml :index
 end
 
 get '/unwind/:url' do
-  unwind(params[:url])
+  @unwound_url, @unwind_error = unwind(params[:url])
   haml :index
 end
 
-def unwind(url)
-  if url.nil? or url.empty?
-    @unwind_error = 'Please enter a url.'
-  else
-    begin
-      response = Net::HTTP.get_response(URI.parse(url))
-
-      if response['location']
-        @unwound_url = response['location']
-      elsif response == Net::HTTPSuccess
-        @unwound_error = 'That url does not redirect!'
-        @unwound_url = url
-      else
-        @unwind_error = 'An error occured accessing that url.'
+helpers do
+  def unwind(url, depth = 5)
+    if url.nil? or url.empty?
+      error = 'Please enter a url.'
+    else
+      begin
+        response = Net::HTTP.get_response(URI.parse(url))
+p response
+        if response['location']
+          to_url = response['location']
+        elsif response.is_a?(Net::HTTPSuccess)
+          error = 'That url does not redirect!'
+          to_url = url
+        else
+          error = 'An error occured accessing that url.'
+        end
+      rescue Exception => ex
+        error = 'An error occured accessing that url.'
       end
-    rescue Exception => ex
-      @unwind_error = 'An error occured accessing that url.'
     end
+    [to_url, error]
   end
 end
