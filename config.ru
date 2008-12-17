@@ -1,5 +1,5 @@
 #-*-ruby-*-
-ENV['GEM_PATH'] = '~/rubygems'
+
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
 
