@@ -34,4 +34,9 @@ class UrlunwindTest < Test::Unit::TestCase
     post_it '/unwind', :url => "\thttp://tinyurl.com/8kp\n"
     assert_match %r{http://google.com/}, @response.body
   end
+
+  def test_unwind_get_with_json
+    get_it '/unwind.json', :url => 'http://tinyurl.com/8kp'
+    assert_match %r{http:\\/\\/google.com\\/}, @response.body
+  end
 end

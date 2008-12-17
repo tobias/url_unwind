@@ -1,20 +1,22 @@
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
 require 'net/http'
-
+require 'vendor/json_pure/lib/json.rb'
 
 get '/' do
   haml :index
 end
 
 post '/unwind' do
-  @unwound_url, @unwind_error = unwind(params[:url])
+  @url, @unwound_url, @unwind_error = unwind(params[:url])
   haml :index
 end
 
-get '/unwind/:url' do
-  @unwound_url, @unwind_error = unwind(params[:url])
-  haml :index
+get '/unwind.json' do
+#  content_type 'application/json'
+
+  @url, @unwound_url, @unwind_error = unwind(params[:url])
+  { :from_url => @url, :to_url => @unwound_url, :error => @unwind_error }.to_json
 end
 
 get '/stylesheets/style.css' do
@@ -22,14 +24,14 @@ get '/stylesheets/style.css' do
 end
 
 helpers do
-  def unwind(url)
-    url.strip! unless url.nil?
-    if url.nil? or url.empty?
+  def unwind(from_url)
+    from_url.strip! unless from_url.nil?
+    if from_url.nil? or from_url.empty?
       error = 'Please enter a url.'
     else
-      @url = url
+      url = from_url
       begin
-        uri = URI.parse(url)
+        uri = URI.parse(from_url)
         response = Net::HTTP.start(uri.host, uri.port) { |http| http.head(uri.path) }
         if response['location']
           to_url = response['location']
@@ -42,6 +44,6 @@ helpers do
         error = 'An error occured accessing that url.'
       end
     end
-    [to_url, error]
+    [url, to_url, error]
   end
 end

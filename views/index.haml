@@ -35,6 +35,9 @@
                   - else
                     %a{:href => @unwound_url}= @unwound_url
                     #click_message (click to go there)
+          .tip
+            :textile
+              *Tip:* you can use this as a webservice - make a GET call to http://urlunwind.com/unwind.json?url=some_url and get back a json response.
         #footer.span-16.last
           :textile
             Running on "Sinatra":http://sinatra.rubyforge.org/. A "Hand Built Software":http://handbuiltsoftware.com/ creation.
