@@ -7,6 +7,8 @@ default_run_options[:pty] = true
 set :user, 'username'
 set :domain, 'yourdomain.com'
 set :application, 'yourapp'
+set :git_user 'username'
+set :git_host 'github.com'
 
 # the rest should be good
 set :repository,  "#{user}@#{domain}:git/#{application}.git"

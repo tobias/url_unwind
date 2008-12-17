@@ -24,4 +24,14 @@ class UrlunwindTest < Test::Unit::TestCase
     assert_match /An error/, @response.body
   end
 
+  def test_unwind_with_whitespaced_url
+    post_it '/unwind', :url => 'http://tinyurl.com/8kp '
+    assert_match %r{http://google.com/}, @response.body
+
+    post_it '/unwind', :url => ' http://tinyurl.com/8kp'
+    assert_match %r{http://google.com/}, @response.body
+
+    post_it '/unwind', :url => "\thttp://tinyurl.com/8kp\n"
+    assert_match %r{http://google.com/}, @response.body
+  end
 end

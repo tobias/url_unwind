@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
-
+require 'net/http'
 
 
 get '/' do
@@ -17,19 +17,24 @@ get '/unwind/:url' do
   haml :index
 end
 
+get '/stylesheets/style.css' do
+  sass :style
+end
+
 helpers do
-  def unwind(url, depth = 5)
+  def unwind(url)
+    url.strip! unless url.nil?
     if url.nil? or url.empty?
       error = 'Please enter a url.'
     else
+      @url = url
       begin
-        response = Net::HTTP.get_response(URI.parse(url))
-p response
+        uri = URI.parse(url)
+        response = Net::HTTP.start(uri.host, uri.port) { |http| http.head(uri.path) }
         if response['location']
           to_url = response['location']
         elsif response.is_a?(Net::HTTPSuccess)
-          error = 'That url does not redirect!'
-          to_url = url
+          #do nothing
         else
           error = 'An error occured accessing that url.'
         end

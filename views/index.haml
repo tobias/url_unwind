@@ -1,14 +1,40 @@
 %html
   %head
     %title URL Unwind - see where you are going before you get there
+    %link{:href => '/stylesheets/blueprint/screen.css', :media => 'screen', :rel => 'stylesheet', :type => 'text/css'}
+    /[if IE]
+      %link{:href => '/stylesheets/blueprint/ie.css', :media => 'screen', :rel => 'stylesheet', :type => 'text/css'}
+    %link{:href => '/stylesheets/style.css', :media => 'screen', :rel => 'stylesheet', :type => 'text/css'}
   %body
-    #content
-      #header
+    .container
+      .span-4 &nbsp;
+      .span-16.last
+        #header.span-16.last
+          %span#title URL Unwind
+          %span#sub Don&apos;t get RickRolled again!
 
-      - unless @unwind_error.nil?
-        #error= @unwind_error
-      %form{:method => 'POST', :action => '/unwind'}
-        %input{:name => 'url', :value => params[:url]}
-        %input{:type => 'submit', :value => 'Unwind It'}
-      - unless @unwound_url.nil?
-        #url= @unwound_url
+        #content.span-16.last
+          #desc
+            :textile
+              Tired of getting shortened URL&apos;s (from "bit.ly":http://bit.ly/, "is.gd":http://is.gd/, etc.) and not knowing where it goes? URL Unwind helps with that - just paste the url below, hit the button, and see where you are going _before_ you get there.
+          %form#form{:method => 'POST', :action => '/unwind'}
+            - unless @unwind_error.nil?
+              #error.notice= @unwind_error
+            %p
+              %input#url{:name => 'url', :value => params[:url]}
+
+            %input#submit{:type => 'submit', :value => 'Unwind It'}
+            - if @unwind_error.nil? and !@url.nil?
+              #result
+                #from.url
+                  %a{:href => @url}= @url
+                #text redirects to:
+                #to.url
+                  - if @unwound_url.nil?
+                    Nowhere!
+                  - else
+                    %a{:href => @unwound_url}= @unwound_url
+                    #click_message (click to go there)
+        #footer.span-16.last
+          :textile
+            Running on "Sinatra":http://sinatra.rubyforge.org/. A "Hand Built Software":http://handbuiltsoftware.com/ creation.
