@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
 require 'net/http'
-require 'vendor/json_pure/lib/json.rb'
+#require 'vendor/json_pure/lib/json.rb'
 
 get '/' do
   haml :index
@@ -16,7 +16,7 @@ get '/unwind.json' do
 #  content_type 'application/json'
 
   @url, @unwound_url, @unwind_error = unwind(params[:url])
-  { :from_url => @url, :to_url => @unwound_url, :error => @unwind_error }.to_json
+  #{ :from_url => @url, :to_url => @unwound_url, :error => @unwind_error }.to_json
 end
 
 get '/stylesheets/style.css' do
