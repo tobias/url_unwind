@@ -11,7 +11,7 @@ set :git_user 'username'
 set :git_host 'github.com'
 
 # the rest should be good
-set :repository,  "#{user}@#{domain}:git/#{application}.git"
+set :repository,  "#{git_user}@#{git_domain}:git/#{application}.git"
 set :deploy_to, "/home/#{user}/#{domain}"
 set :deploy_via, :remote_cache
 set :scm, 'git'
@@ -24,6 +24,7 @@ server domain, :app, :web
 
 namespace :deploy do
   task :restart do
+    run "test -d #{current_path}/tmp || mkdir #{current_path}/tmp"
     run "touch #{current_path}/tmp/restart.txt"
   end
 end
