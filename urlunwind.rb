@@ -29,10 +29,12 @@ helpers do
     if from_url.nil? or from_url.empty?
       error = 'Please enter a url.'
     else
+      from_url = "http://#{from_url}" unless from_url =~ %r{^http://}
       url = from_url
       begin
         uri = URI.parse(from_url)
-        response = Net::HTTP.start(uri.host, uri.port) { |http| http.head(uri.path) }
+        response = Net::HTTP.start(uri.host, uri.port) { |http| http.head(uri.path.empty? ? '/' : uri.path) }
+
         if response['location']
           to_url = response['location']
         elsif response.is_a?(Net::HTTPSuccess)
