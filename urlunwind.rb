@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
 require 'net/http'
-require 'json'
+#require 'json'
 
 get '/' do
   haml :index
@@ -13,7 +13,7 @@ post '/unwind' do
 end
 
 get '/unwind.json' do
-#  content_type 'application/json'
+  content_type 'application/json'
 
   @url, @unwound_url, @unwind_error = unwind(params[:url])
   { :from_url => @url, :to_url => @unwound_url, :error => @unwind_error }.to_json
