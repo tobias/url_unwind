@@ -16,7 +16,7 @@
         #content.span-16.last
           #desc
             :textile
-              Tired of getting shortened URL&apos;s (from "bit.ly":http://bit.ly/, "is.gd":http://is.gd/, etc.) and not knowing where it goes? URL Unwind helps with that - just paste the url below, hit the button, and see where you are going _before_ you get there.
+              Tired of getting shortened URL&apos;s (from "bit.ly":http://bit.ly/, "is.gd":http://is.gd/, etc.) and not knowing where they go? URL Unwind helps with that - just paste a short URL below, hit the button, and see where you are going _before_ you get there.
           %form#form{:method => 'POST', :action => '/unwind'}
             - unless @unwind_error.nil?
               #error.notice= @unwind_error
