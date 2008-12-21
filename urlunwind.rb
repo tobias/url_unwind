@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
 require 'net/http'
-#require 'json'
+require 'json'
 
 get '/' do
   haml :index
