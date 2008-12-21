@@ -20,6 +20,8 @@ get '/unwind.json' do
 end
 
 get '/stylesheets/style.css' do
+  content_type 'text/css'
+
   sass :style
 end
 
