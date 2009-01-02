@@ -1,7 +1,8 @@
+ENV['GEM_PATH'] = '/home/urlunwind/rubygems'
 require 'rubygems'
 require 'vendor/sinatra/lib/sinatra.rb'
 require 'net/http'
-#require 'json'
+require 'json'
 
 get '/' do
   haml :index
