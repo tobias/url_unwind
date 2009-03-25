@@ -1,3 +1,4 @@
+#ENV['GEM_PATH'] = '/home/urlunwind/rubygems'
 require 'rubygems'
 #hack to work with new rack (0.9.1)
 require 'rack/file'
@@ -14,6 +15,11 @@ get '/' do
   haml :index
 end
 
+get  '/unwind' do
+  @url, @unwound_url, @unwind_error = unwind(params[:url])
+  haml :index
+end
+
 post '/unwind' do
   @url, @unwound_url, @unwind_error = unwind(params[:url])
   haml :index
@@ -23,7 +29,11 @@ get '/unwind.json' do
   content_type 'application/json'
 
   @url, @unwound_url, @unwind_error = unwind(params[:url])
-  { :from_url => @url, :to_url => @unwound_url, :error => @unwind_error }.to_json
+  # this is non-spec json
+  # it would be much better to use the json gem for this, but it is
+  # not available on dreamhost, and passenger dies intermittently
+  # failing to load it when it is installing it locally 
+  "{ \"from_url\": #{quoted_string(@url)}, \"to_url\": #{quoted_string(@unwound_url)}, \"error\": #{quoted_string(@unwind_error)}}"
 end
 
 get '/stylesheets/style.css' do
@@ -57,4 +67,15 @@ helpers do
     end
     [url, to_url, error]
   end
+  
+  CHAR_MAP = {
+    '"' => '\"',
+    '\\' => '\\\\',
+    '/' => '\/'
+  } unless defined?(CHAR_MAP)
+    
+  def quoted_string(str)
+    str ? "\"#{str.gsub(/["\\\/]/) { CHAR_MAP[$&] }}\"" : 'null'
+  end
+  
 end
