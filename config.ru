@@ -2,6 +2,13 @@
 #ENV['GEM_PATH'] = '/home/urlunwind/rubygems'
 require 'rubygems'
 #require 'json'
+
+#hack to work with new rack (0.9.1)
+require 'rack/file'
+class Rack::File
+   MIME_TYPES = Hash.new { |hash, key| Rack::Mime::MIME_TYPES[".#{key}"] }
+end
+
 require 'vendor/sinatra/lib/sinatra.rb'
 
 
