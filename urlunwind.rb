@@ -25,7 +25,7 @@ get '/unwind.json' do
   # this is non-spec json
   # it would be much better to use the json gem for this, but it is
   # not available on dreamhost, and passenger dies intermittently
-  # failing to load it when it is installing it locally 
+  # failing to load it when json is installed locally
   "{ \"from_url\": #{quoted_string(@url)}, \"to_url\": #{quoted_string(@unwound_url)}, \"error\": #{quoted_string(@unwind_error)}}"
 end
 
